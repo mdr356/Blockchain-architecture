@@ -42,8 +42,8 @@ public class HashLib {
     }
 
     public String sha256(int proof) {
-        byte[] encodedhash = digest.digest(Integer.toString(proof).getBytes(StandardCharsets.UTF_8));
-        return bytesToHex(encodedhash);
+        byte[] encodedHash = digest.digest(Integer.toString(proof).getBytes(StandardCharsets.UTF_8));
+        return bytesToHex(encodedHash);
     }
 
     private String bytesToHex(byte[] hash) {
