@@ -5,4 +5,5 @@ data class Block(
     val timeStamp: String,
     val proof: Double,
     val previousHash: String,
+    val transactions: ArrayList<Transaction>,
 )

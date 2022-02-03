@@ -1,42 +1,53 @@
 package com.mdr356.blockchainkt.service
 
 import com.mdr356.blockchainkt.model.Block
+import com.mdr356.blockchainkt.model.Transaction
 import com.mdr356.blockchainkt.util.HashLib
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 import java.util.*
+import kotlin.collections.ArrayList
+
 
 @Service
 class ChainService {
 
     // initialize chain
     private var chain : ArrayList<Block> = ArrayList()
+
     init {
         // create genesis block
-        createBlock(1.0,"0")
+        createBlock(1.0, "0", arrayListOf())
     }
     /*
      * create new block include proof and previousHash
      * add block to chain
      * return block
      */
-    fun createBlock(proof: Double, previousHash: String): Block {
+    fun createBlock(
+        proof: Double,
+        previousHash: String,
+        transactions: ArrayList<Transaction>
+    ): Block {
         val block =  Block(
             index = chain.size + 1,
             timeStamp = LocalDateTime.now().toString(),
             proof = proof,
-            previousHash = previousHash
+            previousHash = previousHash,
+            transactions = transactions
         )
+
+        // add new block to chain
         chain.add(block)
 
         return block
     }
 
-    public fun getChain() : ArrayList<Block> {
+    fun getChain() : ArrayList<Block> {
         return chain
     }
 
-    public fun getPreviousBlock() : Block {
+    fun getPreviousBlock() : Block {
         return chain[chain.size-1]
     }
     /*
@@ -44,7 +55,7 @@ class ChainService {
      * it it is, then invalid.
      * also check to see if thje previousHash starts with four leading zeroes.
      */
-    public fun isChainValid() : Boolean {
+    fun isChainValid() : Boolean {
         var previousBlock = chain[0]
         var blockIndex = 1
 

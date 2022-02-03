@@ -1,6 +1,7 @@
 package com.mdr356.blockchainkt.controller
 
 import com.mdr356.blockchainkt.model.Block
+import com.mdr356.blockchainkt.model.Transaction
 import com.mdr356.blockchainkt.service.ChainService
 import com.mdr356.blockchainkt.util.HashLib
 import org.springframework.beans.factory.annotation.Autowired
@@ -15,6 +16,7 @@ class BlockchainController {
     @Autowired
     lateinit var blockChain: ChainService
 
+    var sample = 1
     /*
      * get a complete copy of the block chain
      */
@@ -47,8 +49,13 @@ class BlockchainController {
         // previous hash is the previous block hash 256.
         val previousHash: String = HashLib.sha256(previousBlock)
 
+        // create a transaction before creating block
+        val tx1 = Transaction(sender="marc"+sample++, receiver = "Tina", 1000000.0)
+        val tx2 = Transaction(sender="marc"+sample++, receiver = "Mom", 500000.0)
+        val transactions : ArrayList<Transaction> = arrayListOf(tx1,tx2)
+
         // create block
-        val block = blockChain.createBlock(proof, previousHash)
+        val block = blockChain.createBlock(proof, previousHash, transactions)
 
         return ResponseEntity(block, HttpStatus.OK)
     }

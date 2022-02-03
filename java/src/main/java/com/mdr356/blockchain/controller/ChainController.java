@@ -51,6 +51,7 @@ public class ChainController {
         // create block
         Block block = blockChain.createBlock(proof, previousHash);
 
+        // clear transactions
         return new ResponseEntity<>(block, HttpStatus.OK);
     }
 
